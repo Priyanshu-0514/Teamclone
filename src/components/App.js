@@ -1,18 +1,18 @@
 
 import React from 'react';
+import Home from './Home';
+import VideoRoom from './VideoRoom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
-  let dateString = new Date().toLocaleString().split(',').find(() => true);
   return (
     <div>
-      <header> Team Clone</header>
-      <form id="container1">
-      <button type="submit" name="" id="button1">Create New Meeting</button>
-      <p>-or-</p>
-      <input type="text" name="" id="" placeholder="join by code"></input>
-      <button type="submit">Enter</button>
-      </form>
-      <footer> {dateString} </footer>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Home}></Route>
+          <Route path="/:url" component={VideoRoom} />
+        </Switch>
+      </Router>
     </div>
   );
 }
