@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import Room from './Room';
+// import { useHistory } from "react-router-dom";
 // The usage -
 import Peer from 'peerjs';
 
@@ -10,10 +11,11 @@ function Home(){
     const [room,setRoom] = useState(false);
     const [videoList,setVideoList] = useState([]);
     const [media,setmedia] = useState(null);
+    // let history = useHistory();
     
 
   
-    const getRoom = () => {
+    const createRoom = () => {
          let myPeer = new Peer(undefined, {
         
           host: 'localhost',
@@ -21,7 +23,11 @@ function Home(){
         path: '/myapp',
         key:'peerjs'
       });
+      // var call = myPeer.call(id,
+      //   stream);
       myPeer.on('open', (id) => {
+        // history.push(`/${id}`);
+
         console.log("Successfully connected with Peer Server.");
         console.log(id);
         // Call a peer, providing our mediaStream
@@ -33,16 +39,46 @@ function Home(){
           audio: true
         }).then(stream => {
           addVideoStream(myVideo, stream);
-            // peer.call()
+         
             
         });
-
-      
-        
-      
-
     })
     }
+
+
+    const joinRoom = () => {
+      let myPeer = new Peer(undefined, {
+     
+       host: 'localhost',
+     port: 9000,
+     path: '/myapp',
+     key:'peerjs'
+   });
+   myPeer.on('open', (id) => {
+    //  history.push(`/${id}`);
+
+     console.log("Successfully connected with Peer Server.");
+     console.log(id);
+     // Call a peer, providing our mediaStream
+     const myVideo = document.createElement('video');
+     myVideo.muted = true;
+     setRoom(true);
+     navigator.mediaDevices.getUserMedia({
+       video: true,
+       audio: true
+     }).then(stream => {
+       addVideoStream(myVideo, stream);
+       var call = myPeer.call(id,
+     stream);
+         
+     });
+
+   
+     
+   
+
+ })
+ }
 
     
 function addVideoStream(video, stream) {
@@ -72,7 +108,7 @@ function addVideoStream(video, stream) {
         <header> Team Clone</header>
         <div className="container">
         {/* <form id="container1"> */}
-        <button  name="" id="button1" onClick={getRoom}>Create New Meeting</button>
+        <button  name="" id="button1" onClick={createRoom}>Create New Meeting</button>
         <p>-or-</p>
         <input type="text" name="" id="" placeholder="join by code"></input>
         <button type="submit">Enter</button>
