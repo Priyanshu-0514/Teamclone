@@ -9,38 +9,61 @@ import StopScreenShareIcon from '@material-ui/icons/StopScreenShare'
 import CallEndIcon from '@material-ui/icons/CallEnd'
 import ChatIcon from '@material-ui/icons/Chat'
 
-function Room(){
-      
-     const [video,setVideo] = useState(false);
-     const [audio,setAudio] = useState(false);
-    
-     function handleAudio() {
-         setAudio(!audio);
-     } 
 
-     function handleVideo() {
-         setVideo(!video);
+function Room(props){
+
+     function handleMessage(){
+         console.log("Message Box Is Opened.")
      }
      
      function copyURL(){
-         console.log("URL Copied.")
+        let text = props.id;
+		if (!navigator.clipboard) {
+			let textArea = document.createElement("textarea")
+			textArea.value = text
+			document.body.appendChild(textArea)
+			textArea.focus()
+			textArea.select()
+			try {
+				document.execCommand('copy')
+				alert("Link copied to clipboard!")
+			} catch (err) {
+				alert("Failed to copy")
+			}
+			document.body.removeChild(textArea)
+			return
+		}
+		navigator.clipboard.writeText(text).then(function () {
+			alert("Link copied to clipboard!")
+		}, () => {
+			alert("Failed to copy")
+		})
+     }
+
+     function handleEndCall(){
+        try {
+			let tracks = this.localVideoref.current.srcObject.getTracks()
+			tracks.forEach(track => track.stop())
+		} catch (e) {}
+		window.location.href = "/"
      }
      return (
         <div>
-          <IconButton style={{ color: "#424242" }} onClick={handleVideo}>
-              {video === true ? <VideocamIcon /> : <VideocamOffIcon />}
+          <IconButton style={{ color: "#424242" }} onClick={props.handleVideo}>
+              {props.video === true ? <VideocamIcon /> : <VideocamOffIcon />}
           </IconButton>
-          <IconButton style={{ color: "#424242" }} onClick={handleAudio}>
-              {audio === true ? <MicIcon /> : <MicOffIcon />}
+          <IconButton style={{ color: "#424242" }} onClick={props.handleAudio}>
+              {props.audio === true ? <MicIcon /> : <MicOffIcon />}
           </IconButton>
-          <IconButton style={{ color: "red" }} onClick={handleAudio}>
+          <IconButton style={{ color: "red" }} onClick={handleEndCall}>
           <CallEndIcon />
           </IconButton>
-          <IconButton style={{ color: "green" }} onClick={handleAudio}>
+          <IconButton style={{ color: "green" }} onClick={handleMessage}>
           <ChatIcon />
           </IconButton>
           <Button style={{backgroundColor: "#3f51b5",color: "whitesmoke",marginLeft: "20px",
-          marginTop: "10px",width: "120px",fontSize: "10px"}} onClick={copyURL}>Copy invite link</Button>
+          marginTop: "10px",width: "120px",fontSize: "10px"}} onClick={copyURL}>Copy invite link
+          </Button>
         </div>
     );
 }
