@@ -45,21 +45,19 @@ function Room(props){
 			let tracks = this.localVideoref.current.srcObject.getTracks()
 			tracks.forEach(track => track.stop())
 		} catch (e) {}
-		window.location.href = "/"
+		window.location.href = "/";
      }
+     
      return (
         <div>
           <IconButton style={{ color: "#424242" }} onClick={props.handleVideo}>
-              {props.video === true ? <VideocamIcon /> : <VideocamOffIcon />}
+              {props.video ? <VideocamIcon /> : <VideocamOffIcon />}
           </IconButton>
           <IconButton style={{ color: "#424242" }} onClick={props.handleAudio}>
-              {props.audio === true ? <MicIcon /> : <MicOffIcon />}
+              {props.audio ? <MicIcon /> : <MicOffIcon />}
           </IconButton>
           <IconButton style={{ color: "red" }} onClick={handleEndCall}>
           <CallEndIcon />
-          </IconButton>
-          <IconButton style={{ color: "green" }} onClick={handleMessage}>
-          <ChatIcon />
           </IconButton>
           <Button style={{backgroundColor: "#3f51b5",color: "whitesmoke",marginLeft: "20px",
           marginTop: "10px",width: "120px",fontSize: "10px"}} onClick={copyURL}>Copy invite link
