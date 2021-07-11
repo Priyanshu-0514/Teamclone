@@ -109,8 +109,8 @@ if(!room){
 
   function step2 () {
     console.log("step2 called.");
-    var myObj = document.getElementsByClassName(peer.id);
-    myObj.remove();
+    // var myObj = document.getElementsByClassName(peer.id);
+    // myObj.remove();
     setRoom(false);
   }
 
