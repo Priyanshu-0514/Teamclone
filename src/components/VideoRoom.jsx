@@ -30,7 +30,7 @@ function VideoRoom() {
 if(!room){
      let peer = new Peer({
         
-        host: 'peerjsserver01.herokuapp.com/',
+        host: 'peerjsserver01.herokuapp.com',
       port: 443,
       path: '/',
       key:'peerjs'
